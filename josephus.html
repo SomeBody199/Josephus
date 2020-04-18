@@ -1,0 +1,52 @@
+<html>
+<head>
+<script>
+    const boxWidth = 500;
+    const boxHeight = 500;
+    const avatarWidth = 100;
+    const avatarHeight = 100;
+
+    function SoldierPos(pos, total) {
+        const angle = 2*Math.PI * pos / total;
+        const x = (boxWidth - avatarWidth)/2 * (1 + Math.sin(angle)) + avatarWidth/2;;
+        const y = (boxHeight - avatarHeight)/2 * (1 + Math.cos(angle)) + avatarHeight/2;
+        return {x: x, y: y}
+    } 
+
+    function initialDraw() {
+        var svgns = "http://www.w3.org/2000/svg";
+        const total = document.getElementById("count").value;
+        const box = document.getElementById("box");
+        while (box.lastChild) {
+            box.removeChild(box.lastChild);
+        }
+        for(i = 0; i < total; i++) {
+            const pos = SoldierPos(i, total);
+            var avatar = document.createElementNS(svgns, 'circle');
+            avatar.setAttributeNS(null, 'cx', pos.x);
+            avatar.setAttributeNS(null, 'cy', pos.y);
+            avatar.setAttributeNS(null, 'r', 50);
+            avatar.setAttributeNS(null, 'style', 'fill: none; stroke: blue; stroke-width: 1px;' );
+            box.appendChild(avatar);
+            
+        } 
+    }
+
+</script>
+
+</head>
+<body>
+<h1>Josephus Problem</h1>
+<div>Number of soldiers:</div>
+<input type="text" id="count"></input>
+<button onclick="initialDraw()">Submit</button>
+<hr/>
+<div style="display: inline;">
+    <svg id="box" width="500px" height="500px"></svg>
+        
+</div>
+</body>
+<script>
+    document.getElementById("count").defaultValue = "5"
+</script>
+</html>
